@@ -12,10 +12,8 @@ import org.w3c.dom.NodeList;
 
 // The MapHost class exists as a means of loading TMX files into the working memory of the program.
 public class MapHost {
-    private String tmxTarget;
-    private NodeList rawTileData;
-    private NodeList rawImageData;
-    private ArrayList<TileSet> tileSets = new ArrayList<TileSet>();
+    private final String tmxTarget;
+    private final ArrayList<TileSet> tileSets = new ArrayList<>();
     private static Map map;
 
     public MapHost(String tmxTarget){
@@ -34,8 +32,8 @@ public class MapHost {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(in);
             // Scrape information from the document.
-            rawTileData = doc.getElementsByTagName("tileset");
-            rawImageData = doc.getElementsByTagName("image");
+            NodeList rawTileData = doc.getElementsByTagName("tileset");
+            NodeList rawImageData = doc.getElementsByTagName("image");
             for(int i = 0; i < rawTileData.getLength(); i++){
                 NamedNodeMap tmp = rawTileData.item(i).getAttributes();
                 NamedNodeMap img = rawImageData.item(i).getAttributes();

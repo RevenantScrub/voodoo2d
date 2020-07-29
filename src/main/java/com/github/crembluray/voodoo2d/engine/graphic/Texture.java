@@ -3,13 +3,11 @@ package com.github.crembluray.voodoo2d.engine.graphic;
 import org.lwjgl.system.MemoryStack;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import static com.github.crembluray.voodoo2d.engine.Utils.toByteArrayAutoClosable;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
@@ -17,7 +15,7 @@ import static org.lwjgl.stb.STBImage.*;
 public class Texture {
 
     private final int id;
-    private int width, height;
+    private final int width, height;
 
     public Texture(String fileName) throws Exception {
         ByteBuffer buf;

@@ -1,6 +1,5 @@
 package com.github.crembluray.voodoo2d.engine.graph;
 
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import org.joml.Matrix4f;

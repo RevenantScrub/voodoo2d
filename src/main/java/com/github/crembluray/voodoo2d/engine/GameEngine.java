@@ -1,7 +1,6 @@
 package com.github.crembluray.voodoo2d.engine;
 
 import com.github.crembluray.voodoo2d.engine.animation.AnimationManager;
-import com.github.crembluray.voodoo2d.engine.mapping.MapHost;
 
 public class GameEngine implements Runnable {
 
@@ -25,7 +24,7 @@ public class GameEngine implements Runnable {
 
     private int fps;
     
-    public GameEngine(String windowTitle, int width, int height, boolean vSync, boolean antiAliasing, IGameLogic gameLogic) throws Exception {
+    public GameEngine(String windowTitle, int width, int height, boolean vSync, boolean antiAliasing, IGameLogic gameLogic) {
         window = new Window(windowTitle, width, height, vSync, antiAliasing);
         this.gameLogic = gameLogic;
         this.windowTitle = windowTitle;
@@ -34,7 +33,7 @@ public class GameEngine implements Runnable {
         animationManager = new AnimationManager();
     }
 
-    public GameEngine(String windowTitle, boolean vSync, boolean antiAliasing, IGameLogic gameLogic) throws Exception {
+    public GameEngine(String windowTitle, boolean vSync, boolean antiAliasing, IGameLogic gameLogic) {
         this(windowTitle, 0, 0, vSync, antiAliasing, gameLogic);
     }
 
@@ -43,8 +42,8 @@ public class GameEngine implements Runnable {
         try {
             init();
             gameLoop();
-        } catch (Exception excp) {
-            excp.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             cleanup();
         }
@@ -64,8 +63,7 @@ public class GameEngine implements Runnable {
         float accumulator = 0f;
         float interval = 1f / TARGET_UPS;
 
-        boolean running = true;
-        while (running && !window.windowShouldClose()) {
+        while (!window.windowShouldClose()) {
             elapsedTime = timer.getElapsedTime();
             accumulator += elapsedTime;
 
@@ -100,7 +98,7 @@ public class GameEngine implements Runnable {
     }
 
     protected void input() {
-        mouseInput.input(window);
+        mouseInput.input();
         gameLogic.input(window, mouseInput);
     }
 

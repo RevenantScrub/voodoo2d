@@ -5,7 +5,7 @@ import com.github.crembluray.voodoo2d.engine.mapping.MapHost;
 
 public class MapTree {
 
-    private MapHost map;
+    private final MapHost map;
     private GameObject mapBack;
     private GameObject mapFront;
     private GameObject mapTop;

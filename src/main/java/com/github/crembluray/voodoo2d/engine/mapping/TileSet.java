@@ -2,7 +2,7 @@ package com.github.crembluray.voodoo2d.engine.mapping;
 
 public class TileSet {
     private int firstGID, lastGID, tileWidth, tileHeight, imageWidth, imageHeight, tileAmountWidth;
-    private int[][] GIDs;
+    private final int[][] GIDs;
     private String name, source;
 
     public TileSet(int firstGID, String name, int tileWidth, int tileHeight, String source, int imageWidth, int imageHeight) {

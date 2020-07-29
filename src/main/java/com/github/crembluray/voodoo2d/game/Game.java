@@ -1,12 +1,7 @@
 package com.github.crembluray.voodoo2d.game;
 
 import com.github.crembluray.voodoo2d.engine.*;
-import com.github.crembluray.voodoo2d.engine.animation.Animation;
-import com.github.crembluray.voodoo2d.engine.audio.AudioManager;
-import com.github.crembluray.voodoo2d.engine.audio.AudioSource;
 import com.github.crembluray.voodoo2d.engine.gameObject.GameObject;
-import com.github.crembluray.voodoo2d.engine.graphic.Mesh;
-import com.github.crembluray.voodoo2d.engine.mapping.MapHost;
 import org.joml.Vector2f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -19,11 +14,13 @@ public class Game implements IGameLogic {
 
     private final Renderer renderer;
 
-    private MapTree mapTree;
+    private final MapTree mapTree;
+
+    private final Gui gui;
 
     private GameObject[] gameObjects;
 
-    private Player player;
+    private final Player player;
 
     public static final float PLAYER_POS_STEP = 0.05f;
 
@@ -31,13 +28,15 @@ public class Game implements IGameLogic {
         renderer = new Renderer();
         camera = new Camera();
         cameraInc = new Vector2f();
+        gui = new Gui();
         player = new Player();
         mapTree = new MapTree();
     }
 
     @Override
     public void init(Window window) throws Exception {
-        renderer.init(window);
+        renderer.init();
+        gui.init();
         player.init();
         mapTree.init();
         gameObjects = new GameObject[] {
@@ -71,7 +70,7 @@ public class Game implements IGameLogic {
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, gameObjects);
+        renderer.render(window, camera, gameObjects, gui);
     }
 
     @Override
@@ -80,6 +79,7 @@ public class Game implements IGameLogic {
         for (GameObject gameObject : gameObjects) {
             gameObject.getMesh().cleanUp();
         }
+        gui.cleanup();
     }
 
 }

@@ -17,6 +17,7 @@ public class SpriteSheet {
             e.printStackTrace();
         }
 
+        assert img != null;
         int rows = img.getHeight() / size;
         int cols = img.getWidth() / size;
 
@@ -48,6 +49,7 @@ public class SpriteSheet {
             e.printStackTrace();
         }
 
+        assert img != null;
         int rows = img.getHeight();
         int cols = img.getWidth();
 

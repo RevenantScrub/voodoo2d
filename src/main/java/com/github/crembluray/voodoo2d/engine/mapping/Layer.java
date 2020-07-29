@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class Layer {
 
     private GameObject layer;
-    private int[][] layerCoords;
-    private int tileWidth, tileHeight;
+    private final int[][] layerCoords;
+    private final int tileWidth, tileHeight;
 
     public Layer(int[][] layerCoords, int x, int y, int tileWidth, int tileHeight, ArrayList<TileSet> tileSets) {
         this.layerCoords = layerCoords;
@@ -35,6 +35,7 @@ public class Layer {
                             if (layerCoords[a][b] >= tileSet.getFirstGID())
                                 currentTileSet = tileSet;
                         }
+                        assert currentTileSet != null;
                         BufferedImage tileSet = ImageIO.read(new File("src\\main\\resources\\maps\\" + currentTileSet.getSource()));
 
                         // Get subImage from tileset

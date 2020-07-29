@@ -3,6 +3,7 @@ package com.github.crembluray.voodoo2d.engine;
 import com.github.crembluray.voodoo2d.engine.gameObject.GameObject;
 import com.github.crembluray.voodoo2d.engine.graph.ShaderProgram;
 import com.github.crembluray.voodoo2d.engine.graph.Transformation;
+import com.github.crembluray.voodoo2d.engine.gui.IGui;
 import org.joml.Matrix4f;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -26,7 +27,7 @@ public class Renderer {
         transformation = new Transformation();
     }
 
-    public void init(Window window) throws Exception {
+    public void init() throws Exception {
         // Create shader
         shaderProgram = new ShaderProgram();
         shaderProgram.createVertexShader(Utils.loadResource("/shaders/vertex.vs"));
@@ -43,7 +44,7 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render(Window window, Camera camera, GameObject[] gameObjects) {
+    public void render(Window window, Camera camera, GameObject[] gameObjects, IGui gui) {
         clear();
 
         if (window.isResized()) {
@@ -61,16 +62,37 @@ public class Renderer {
         Matrix4f viewMatrix = transformation.getViewMatrix(camera);
 
         shaderProgram.setUniform("texture_sampler", 0);
-        // Render each gameItem
+        // Render each gameObject
         for (GameObject gameObject : gameObjects) {
             // Set model view matrix for this item
             Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameObject, viewMatrix);
             shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
-            // Render the mesh for this game item
+            // Render the mesh for this gameObject
             gameObject.getMesh().render();
         }
 
+        renderGui(window, camera, gui);
+
         shaderProgram.unbind();
+    }
+
+    private void renderGui(Window window, Camera camera, IGui gui) {
+        // Update projection Matrix
+        Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
+        shaderProgram.setUniform("projectionMatrix", projectionMatrix);
+
+        // Update view Matrix
+        Matrix4f viewMatrix = transformation.getViewMatrix(camera);
+
+        shaderProgram.setUniform("texture_sampler", 0);
+        // Render each gameObject
+        for (GameObject gameObject : gui.getGameObjects()) {
+            // Set model view matrix for this item
+            Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameObject, viewMatrix);
+            shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
+            // Render the mesh for this gameObject
+            gameObject.getMesh().render();
+        }
     }
 
     public void cleanup() {

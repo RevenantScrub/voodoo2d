@@ -1,6 +1,5 @@
 package com.github.crembluray.voodoo2d.engine.graphic;
 
-import org.joml.Vector2f;
 import org.lwjgl.system.MemoryUtil;
 
 import javax.imageio.ImageIO;
@@ -109,19 +108,19 @@ public class Mesh {
     public static Mesh loadMesh(String filename, int size) {
         return new Mesh(
                 new float[]{ // positions
-                    -0.5f,  0.5f, 0.0f,
-                    -0.5f, -0.5f, 0.0f,
-                    0.5f, -0.5f, 0.0f,
-                    0.5f,  0.5f, 0.0f,
+                        -0.5f,  0.5f, 0.0f,
+                        -0.5f, -0.5f, 0.0f,
+                        0.5f, -0.5f, 0.0f,
+                        0.5f,  0.5f, 0.0f,
                 },
                 new float[]{ // text coordinates
-                    0.0f, 0.0f,
-                    0.0f, 1.0f,
-                    1.0f, 1.0f,
-                    1.0f, 0.0f,
+                        0.0f, 0.0f,
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        1.0f, 0.0f,
                 },
                 new int[]{
-                    0, 1, 3, 3, 1, 2,
+                        0, 1, 3, 3, 1, 2,
                 },
                 new SpriteSheet(filename, size)
         );
@@ -129,36 +128,30 @@ public class Mesh {
 
     public static Mesh loadMesh(String filename) throws Exception {
         BufferedImage tmp = ImageIO.read(new File(filename));
-        Vector2f topRight, bottomRight, bottomLeft;
+        float aspectRatio = (float) tmp.getWidth() / (float) tmp.getHeight();
+        float newWidth, newHeight;
         if(tmp.getWidth() > tmp.getHeight()) {
-            topRight = new Vector2f(0.25f + (1f / tmp.getWidth()), 0.5f);
-            bottomLeft = new Vector2f(-0.5f, -((1f / tmp.getHeight()) * 2));
-            bottomRight = new Vector2f(topRight.x, bottomLeft.y);
+            newWidth = 1.0f;
+            newHeight = newWidth / aspectRatio;
         } else {
-            topRight = new Vector2f((1f / tmp.getWidth()), 0.5f);
-            bottomLeft = new Vector2f(-0.5f, -0.5f);
-            bottomRight = new Vector2f(topRight.x, -0.5f);
-        }
-        if(tmp.getWidth() == tmp.getHeight()) {
-            topRight = new Vector2f(0.5f, 0.5f);
-            bottomLeft = new Vector2f(-0.5f, -0.5f);
-            bottomRight = new Vector2f(0.5f, -0.5f);
+            newHeight = 1.0f;
+            newWidth = newHeight * aspectRatio;
         }
         return new Mesh(
                 new float[]{ // positions
-                    -0.5f,  0.5f, 0.0f,
-                    bottomLeft.x, bottomLeft.y, 0.0f,
-                    bottomRight.x, bottomRight.y, 0.0f,
-                    topRight.x,  topRight.y, 0.0f,
+                        -(newWidth / 2),  newHeight / 2, 0.0f, // top left
+                        -(newWidth / 2), (newHeight / 2) - newHeight, 0.0f, // bottom left
+                        -(newWidth / 2) + newWidth, (newHeight / 2) - newHeight, 0.0f, // bottom right
+                        -(newWidth / 2) + newWidth, (newHeight / 2), 0.0f, // top right
                 },
                 new float[]{ // text coordinates
-                    0.0f, 0.0f,
-                    0.0f, 1.0f,
-                    1.0f, 1.0f,
-                    1.0f, 0.0f,
+                        0.0f, 0.0f,
+                        0.0f, 1.0f,
+                        1.0f, 1.0f,
+                        1.0f, 0.0f,
                 },
                 new int[]{
-                    0, 1, 3, 3, 1, 2,
+                        0, 1, 3, 3, 1, 2,
                 },
                 new Texture(filename)
         );
