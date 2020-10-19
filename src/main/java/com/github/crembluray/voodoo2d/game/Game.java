@@ -51,6 +51,7 @@ public class Game implements IGameLogic {
     public void input(Window window, MouseInput mouseInput) {
         cameraInc.set(0, 0);
         player.input(window, mouseInput);
+        gui.input(window, mouseInput);
         if(window.isKeyPressed(GLFW_KEY_S))
             cameraInc.y = 1;
         if(window.isKeyPressed(GLFW_KEY_A))
