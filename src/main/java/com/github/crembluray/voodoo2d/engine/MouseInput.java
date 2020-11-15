@@ -1,9 +1,7 @@
 package com.github.crembluray.voodoo2d.engine;
 
-import org.joml.Vector2d;
-import org.joml.Vector2f;
+import org.joml.*;
 import org.lwjgl.BufferUtils;
-
 import java.nio.DoubleBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -45,6 +43,15 @@ public class MouseInput {
         DoubleBuffer posY = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(window.getWindowHandle(), posX, posY);
         return new Vector2f((float) posX.get(0), (float) posY.get(0));
+    }
+
+    public static Vector2f calcWorldCoords(Window window) {
+        Vector2f mouse = getCursorPos(window);
+        int defaultY = 600;
+        int defaultStep = 260;
+
+        double newStep = (window.getHeight() / (double) defaultY) * defaultStep;
+        return new Vector2f((float)((mouse.x - (window.getWidth() / 2)) / newStep), -(float)((mouse.y - (window.getHeight() / 2)) / newStep));
     }
 
     public Vector2f getDisplVec() {

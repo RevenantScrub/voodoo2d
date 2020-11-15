@@ -17,6 +17,7 @@ public class Player extends GameObject {
         super();
         animations = new Animation[0];
         setScale(0.2f);
+        setPosition(1.0f, 0.0f);
     }
 
     public void init() {

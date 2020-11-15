@@ -95,6 +95,14 @@ public class Renderer {
         }
     }
 
+    public Matrix4f getProjectionMatrix(Window window) {
+        return transformation.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
+    }
+
+    public Matrix4f getViewMatrix(Camera camera) {
+        return transformation.getViewMatrix(camera);
+    }
+
     public void cleanup() {
         if (shaderProgram != null) {
             shaderProgram.cleanup();
